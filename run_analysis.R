@@ -20,7 +20,7 @@ features<-read.table("./UCI HAR Dataset/features.txt")
 names(data)=c("subject","activity",features[[2]])
 
 ## extracting meansurement on the mean and std for each measurement
-data_extracted<-select(data,subject,activity,contains(c("mean","std")))
+data_extracted<-select(data,subject,activity,contains(c("mean()","std()")))
 
 ## renaming activity with descriptive activity names
 activity_labels<-read.table("./UCI HAR Dataset/activity_labels.txt")
@@ -31,6 +31,8 @@ levels(data_extracted$activity) = activity_labels[[2]]
 data_average<-data_extracted%>%
                 group_by(subject,activity,)%>%
                 summarise_all(mean,na.rm=TRUE)
+
+write.table(data_average,"step5.txt")
 
 
 
